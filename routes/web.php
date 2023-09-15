@@ -16,4 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(SiswaController::class)->group(function () {
     Route::get('/', 'index');
+    Route::post('/', 'store');
+    Route::get('/delete/{ID}', 'destroy');
 });

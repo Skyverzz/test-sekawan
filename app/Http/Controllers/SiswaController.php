@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
-use App\Http\Requests\StoreSiswaRequest;
-use App\Http\Requests\UpdateSiswaRequest;
+use Illuminate\Http\Request;
 
 class SiswaController extends Controller
 {
@@ -14,7 +13,10 @@ class SiswaController extends Controller
     public function index()
     {
         //
-        return view('Tables.siswa');
+        $siswa = Siswa::all();
+        return view('Tables.siswa', [
+            'siswa' => $siswa
+        ]);
     }
 
     /**
@@ -28,9 +30,19 @@ class SiswaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSiswaRequest $request)
+    public function store(Request $request)
     {
         //
+        $siswa = Siswa::create([
+            'Nama' => $request->Nama,
+            'Jenis_kelamin' => $request->Jenis_kelamin,
+            'Alamat' => $request->Alamat
+        ]);
+        if ($siswa) {
+            return redirect()->back();
+        }else{
+            echo 'data gagal disimpan';
+        }
     }
 
     /**
@@ -44,15 +56,16 @@ class SiswaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Siswa $siswa)
+    public function edit($id)
     {
         //
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSiswaRequest $request, Siswa $siswa)
+    public function update(Request $request, Siswa $siswa)
     {
         //
     }
@@ -60,8 +73,14 @@ class SiswaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Siswa $siswa)
+    public function destroy($ID)
     {
         //
+        $siswa = Siswa::where('ID',$ID)->delete();
+        if ($siswa) {
+            return redirect()->back();
+        }else{
+            echo 'ada kesalaha periksa kembali';
+        }
     }
 }

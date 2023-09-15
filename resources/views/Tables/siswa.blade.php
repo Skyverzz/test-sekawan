@@ -208,8 +208,55 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
-                        <div class="card-header pb-0">
-                            <h6>Data Table Siswa</h6>
+                        <div class="d-flex justify-content-between align-items-center card-header pb-0">
+                            <h5>Data Table Siswa</h5>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Tambah Data Siswa
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Siswa</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form action="" method="POST" autocomplete="off">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="Nama" class="form-label">Nama</label>
+                                                    <input type="text" class="form-control" id="Nama"
+                                                        placeholder="Masukan Nama" name="Nama">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                                                    <select id="Jenis_kelamin" class="form-select" name="Jenis_kelamin">
+                                                        <option selected>Jenis Kelamin</option>
+                                                        <option value="0">Laki-laki</option>
+                                                        <option value="1">Perempuan</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Alamat" class="form-label">Alamat</label>
+                                                    <input type="text" class="form-control" id="Alamat"
+                                                        placeholder="Masukan Alamat" name="Alamat">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
@@ -231,25 +278,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="alig-middle px-2">
-                                                    <div class="my-auto">
-                                                        <h6 class="text-sm font-weight-bold mb-0">Putra</h6>
+                                        @foreach ($siswa as $item)
+                                            <tr>
+                                                <td>
+                                                    <div class="alig-middle px-2">
+                                                        <div class="my-auto">
+                                                            <h6 class="text-sm font-weight-bold mb-0">
+                                                                {{ $item->Nama }}</h6>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm font-weight-bold mb-0">Laki</p>
-                                            </td>
-                                            <td>
-                                                <span class="text-xs font-weight-bold">Jl. Danau toba no 33 RT 01 RW 03 Sawojajar Kedungkandang Malang</span>
-                                            </td>
-                                            <td class="align-middle">
-                                                <a class="text-sm font-weight-bold mb-0 me-3">Edit</a>
-                                                <a class="text-sm font-weight-bold mb-0">Hapus</a>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>
+                                                    <p class="text-sm font-weight-bold mb-0">
+                                                        <?php
+                                                        if ($item->Jenis_kelamin == 0) {
+                                                            echo 'Laki-laki';
+                                                        } else {
+                                                            echo 'Perempuan';
+                                                        }
+                                                        ?></p>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="text-xs font-weight-bold text-wrap">{{ $item->Alamat }}</span>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <a class="text-sm font-weight-bold mb-0 me-3">Edit</a>
+                                                    <a href="/delete/{{ $item->ID }}" class="text-sm font-weight-bold mb-0 me-3">Hapus</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
